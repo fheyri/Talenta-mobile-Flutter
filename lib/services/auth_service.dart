@@ -51,6 +51,58 @@ class AuthService {
     throw _errorFrom(res.statusCode, body);
   }
 
+  Future<LoginResult> register({
+    required String name,
+    required String email,
+    required String password,
+    required String role,
+    String deviceName = 'mobile',
+  }) async {
+    final res = await _send(
+      () => http.post(
+        _uri('/auth/register'),
+        headers: _headers(),
+        body: jsonEncode({
+          'name': name,
+          'email': email,
+          'password': password,
+          'role': role,
+          'device_name': deviceName,
+        }),
+      ),
+    );
+
+    final body = _decode(res);
+    if ((res.statusCode == 200 || res.statusCode == 201) &&
+        body['token'] != null &&
+        body['user'] != null) {
+      return LoginResult(
+        token: body['token'].toString(),
+        user: AppUser.fromJson(Map<String, dynamic>.from(body['user'] as Map)),
+      );
+    }
+    throw _errorFrom(res.statusCode, body);
+  }
+
+  Future<AppUser> completeProfile({
+    required String token,
+    required Map<String, dynamic> data,
+  }) async {
+    final res = await _send(
+      () => http.put(
+        _uri('/profile/complete'),
+        headers: _headers(token: token),
+        body: jsonEncode(data),
+      ),
+    );
+
+    final body = _decode(res);
+    if (res.statusCode == 200 && body['user'] != null) {
+      return AppUser.fromJson(Map<String, dynamic>.from(body['user'] as Map));
+    }
+    throw _errorFrom(res.statusCode, body);
+  }
+
   Future<AppUser> me(String token) async {
     final res = await _send(
       () => http.get(_uri('/me'), headers: _headers(token: token)),

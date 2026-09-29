@@ -22,7 +22,7 @@ class PsikotesScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.blue.shade50,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.blue.shade150),
+              border: Border.all(color: Colors.blue.shade100),
             ),
             child: const Row(
               children: [

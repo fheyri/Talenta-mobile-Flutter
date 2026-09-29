@@ -11,6 +11,16 @@ class OfflineScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: Navigator.of(context).canPop()
+          ? AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: AppColors.navy),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            )
+          : null,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(32),

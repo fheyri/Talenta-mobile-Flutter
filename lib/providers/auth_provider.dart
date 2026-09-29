@@ -54,6 +54,33 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> register({
+    required String name,
+    required String email,
+    required String password,
+    required String role,
+  }) async {
+    final result = await _service.register(
+      name: name,
+      email: email,
+      password: password,
+      role: role,
+    );
+    await _storage.write(result.token);
+    _token = result.token;
+    user = result.user;
+    status = AuthStatus.authenticated;
+    notifyListeners();
+  }
+
+  Future<void> completeProfile(Map<String, dynamic> data) async {
+    final token = _token;
+    if (token == null) return;
+    final updated = await _service.completeProfile(token: token, data: data);
+    user = updated;
+    notifyListeners();
+  }
+
   Future<void> logout() async {
     final token = _token;
     if (token != null) {

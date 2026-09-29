@@ -69,7 +69,7 @@ class MentoringScreen extends StatelessWidget {
                       Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                       Text(role, style: const TextStyle(color: Colors.grey, fontSize: 13)),
                       const SizedBox(height: 4),
-                      Text(alumniTahun, style: TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.w600)),
+                      Text(alumniTahun, style: const TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.w600)),
                     ],
                   ),
                 ),
